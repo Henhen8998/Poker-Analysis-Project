@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {reviewAction} from './dist/coach.js';
+const base={pot:150,call:50,equity:30,terminal:true};
+assert.equal(reviewAction({...base,action:'Call'}).verdict,'Supported by chip EV');
+assert.equal(reviewAction({...base,action:'Fold'}).verdict,'Costs chip EV under this model');
+assert.equal(reviewAction({...base,action:'Call',equity:20}).verdict,'Costs chip EV under this model');
+assert.equal(reviewAction({...base,action:'Fold',equity:20}).verdict,'Supported by chip EV');
+assert.equal(reviewAction({...base,action:'Call',equity:25}).verdict,'Break-even under this model');
+assert.equal(reviewAction({...base,action:'Call',terminal:false}).verdict,'Needs more context');
+assert.equal(reviewAction({...base,action:'Raise'}).verdict,'Needs more context');
+assert.equal(reviewAction({...base,action:'Call'}).edge,5);
+console.log('8 coaching checks passed.');

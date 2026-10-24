@@ -1,0 +1,12 @@
+import assert from 'node:assert/strict';
+import {analyze} from './dist/math.js';
+assert.equal(analyze(150,50,30).ev,10);
+assert.equal(analyze(150,50,20).ev,-10);
+assert.equal(analyze(150,50,25).ev,0);
+assert.equal(analyze(150,50,30).required,25);
+assert.equal(analyze(150,50,30).finalPot,200);
+assert.equal(analyze(100,0,50).ev,50);
+assert.equal(analyze(150,50,0).ev,-50);
+assert.equal(analyze(150,50,100).ev,150);
+for(const args of [[-1,50,30],[150,-1,30],[150,50,101],[150,50,-1],[0,0,30],[NaN,50,30],[Infinity,50,30]]) assert.throws(()=>analyze(...args));
+console.log('15 mathematical and validation checks passed.');
